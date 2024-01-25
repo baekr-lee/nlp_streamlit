@@ -3,7 +3,14 @@ import pandas as pd
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 from collections import Counter
-import io
+import matplotlib.font_manager as fm
+
+# 한글 폰트 경로 설정
+font_path = 'NanumGothic.ttf'
+
+# matplotlib 폰트 설정
+fm.fontManager.addfont(font_path)
+plt.rcParams['font.family'] = 'NanumGothic'
 
 # Streamlit 애플리케이션 시작
 st.title('워드 클라우드 및 단어 빈도 분석')
@@ -27,7 +34,14 @@ if uploaded_file is not None:
     # 워드클라우드 생성 함수
     def create_wordcloud(text_data):
         text = ' '.join(text_data)
-        wordcloud = WordCloud(width = 800, height = 800, background_color ='white', stopwords = exclude_words, min_font_size = 10).generate(text)
+        wordcloud = WordCloud(
+            font_path=font_path,
+            width = 800, 
+            height = 800, 
+            background_color ='white', 
+            stopwords = exclude_words, 
+            min_font_size = 10
+        ).generate(text)
         
         # 워드클라우드 표시
         plt.figure(figsize=(8, 8), facecolor=None)
@@ -57,4 +71,3 @@ if uploaded_file is not None:
     # 단어 빈도 히스토그램 생성 버튼
     if st.button('히스토그램 그리기'):
         plot_histogram(text_data)
-
